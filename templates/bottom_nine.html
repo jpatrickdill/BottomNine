@@ -13,10 +13,14 @@
 
     <script>
         function gridProgress(username) {
+            let i = 0;
+            let ellipses = ["...", " ..."];
+
             let progressBarUpdate = setInterval(function () {
                 let progress = "0%";
 
                 $.get("/progress/" + username).done(function (data) {
+
                     console.log(data);
 
                     progress = data.progress;
@@ -29,7 +33,10 @@
                         afterScanned(username);  // next step
                     }
                 });
-            }, 3000);
+
+                $("#spe").html(ellipses[i%2]);  /* moving "..." so user knows it's working! */
+                i++;
+            }, 2500);
         }
 
         function afterScanned(username) {
@@ -37,6 +44,7 @@
                 console.log(data);
 
                 $("#scanningPosts").remove();
+                $("#spe").remove();
 
                 $("#whileWeWait").html("Generating grid...");
 
@@ -157,7 +165,7 @@
     </div>
 
     <div id="scanning" class="hidden">
-        <p id="scanningPosts">(may take a few seconds to start)</p>
+        <span id="scanningPosts">Searching for least liked posts</span><span id="spe">...</span>
 
         <div class="progress">
             <div class="bar" id="progressbar">0.0%</div>

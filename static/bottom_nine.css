@@ -64,11 +64,14 @@ input.input {
     margin-top: 10px;
 }
 
+#scanningPosts, #spe {
+    font-family: Inconsolata, monospace;
+    font-size: 0.8em;
+}
+
 .hidden {
     display: none;
 }
-
-/* progress bar */
 
 .progress {
     width: 100%;
