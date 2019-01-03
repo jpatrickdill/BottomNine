@@ -82,7 +82,7 @@ input.input {
 }
 
 .bar {
-    width: 0;
+    width: 0%;
     height: 35px;
 
     background: linear-gradient(to right, #2fff6b 0vw, #68fd3c 100vw);

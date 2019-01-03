@@ -20,6 +20,8 @@ log.setLevel(logging.DEBUG)
 fh = logging.FileHandler("bottomnine.log")
 fh.setLevel(logging.DEBUG)
 
+log.addHandler(fh)
+
 
 # create console handler with a higher log level
 
@@ -74,7 +76,7 @@ def get_progress(username):
 def make_image(username):
     username = username.lower()
 
-    log.info("make image request for ", username)
+    log.debug("make image request for {}".format(username))
 
     proc = subprocess.Popen(["python", "./background/makegrid.py", username],
                             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -98,7 +100,7 @@ def get_cdn_url(username):
     username = username.lower()
     key = "images.{}".format(username)
 
-    log.info("cdn requested", username)
+    log.debug("cdn requested for {}".format(username))
 
     if conn.exists(key):
         return jsonify({

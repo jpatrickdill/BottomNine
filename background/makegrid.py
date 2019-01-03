@@ -44,7 +44,8 @@ log.setLevel(logging.DEBUG)
 # create file handler which logs even debug messages
 fh = logging.FileHandler("bottomnine.log")
 fh.setLevel(logging.DEBUG)
-# create console handler with a higher log level
+
+log.addHandler(fh)
 
 # begin
 
@@ -65,7 +66,7 @@ try:
 
     # remove any posts not made in 2018
 
-    log.info("sorting posts", username)
+    log.info("sorting posts")
 
     MIN_TIME = 1514764800
     MAX_TIME = 1546300800
@@ -86,7 +87,7 @@ try:
 
     # download images
 
-    log.info("downloading grid images", username)
+    log.info("downloading grid images for {}".format(username))
 
 
     def download_file(url, path):
@@ -125,7 +126,7 @@ try:
 
     # make grid !
 
-    log.info("making grid", grid_size, username)
+    log.info("making grid")
 
     img = Image.new("RGB", (1200, 1400), "white")
 
