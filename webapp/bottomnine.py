@@ -1,3 +1,4 @@
+import logging
 import subprocess
 
 import redis
@@ -12,6 +13,15 @@ REDIS_PORT = app.config["REDIS_PORT"]
 REDIS_PASSWORD = app.config["REDIS_PASSWORD"]
 
 conn = redis.Redis(REDIS_ENDPOINT, REDIS_PORT, password=REDIS_PASSWORD)
+
+log = logging.getLogger("bottomnine")
+log.setLevel(logging.DEBUG)
+# create file handler which logs even debug messages
+fh = logging.FileHandler("bottomnine.log")
+fh.setLevel(logging.DEBUG)
+
+
+# create console handler with a higher log level
 
 
 @bottom_nine.route("/")
@@ -64,10 +74,12 @@ def get_progress(username):
 def make_image(username):
     username = username.lower()
 
-    proc = subprocess.Popen(["python", "./background/makegrid.py", username],)
-                            #stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    log.info("make image request for ", username)
 
-    out = 200 # proc.stdout.read(3)
+    proc = subprocess.Popen(["python", "./background/makegrid.py", username],
+                            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+    out = proc.stdout.read(3)
 
     if out == "404":
         return jsonify({
@@ -85,6 +97,8 @@ def make_image(username):
 def get_cdn_url(username):
     username = username.lower()
     key = "images.{}".format(username)
+
+    log.info("cdn requested", username)
 
     if conn.exists(key):
         return jsonify({

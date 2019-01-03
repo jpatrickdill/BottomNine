@@ -1,12 +1,11 @@
 import json
-import os
-import sys
-import shutil
 import logging
+import os
+import shutil
+import sys
 from io import BytesIO
 
 import redis
-
 from PIL import Image, ImageDraw, ImageFont
 from gevent import monkey
 
@@ -15,7 +14,6 @@ monkey.patch_all()
 
 import gevent
 
-import cloudinary
 import cloudinary.uploader
 import requests
 
@@ -67,6 +65,8 @@ try:
 
     # remove any posts not made in 2018
 
+    log.info("sorting posts", username)
+
     MIN_TIME = 1514764800
     MAX_TIME = 1546300800
 
@@ -84,8 +84,10 @@ try:
     with open(posts_path, "w") as file:
         file.write(json.dumps(posts))
 
-
     # download images
+
+    log.info("downloading grid images", username)
+
 
     def download_file(url, path):
         r = requests.get(url)
