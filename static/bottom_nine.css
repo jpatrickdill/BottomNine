@@ -66,7 +66,7 @@ input.input {
 
 #scanningPosts, #spe {
     font-family: Inconsolata, monospace;
-    font-size: 0.8em;
+    font-size: 0.875em;
 }
 
 .hidden {
@@ -87,6 +87,8 @@ input.input {
 .bar {
     width: 0%;
     height: 35px;
+
+    margin-right: 2px;  /* keep inside outline */
 
     background: linear-gradient(to right, #2fff6b 0vw, #68fd3c 100vw);
 
