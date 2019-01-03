@@ -17,6 +17,14 @@ import gevent
 import cloudinary.uploader
 import requests
 
+log = logging.getLogger("bottomnine")
+log.setLevel(logging.DEBUG)
+# create file handler which logs even debug messages
+fh = logging.FileHandler("bottomnine.log")
+fh.setLevel(logging.DEBUG)
+
+log.addHandler(fh)
+
 # config
 with open("config.json") as file:
     config = json.loads(file.read())
@@ -35,17 +43,11 @@ REDIS_PASSWORD = config["REDIS_PASSWORD"]
 
 try:
     conn = redis.Redis(REDIS_ENDPOINT, REDIS_PORT, password=REDIS_PASSWORD)
-except redis.RedisError:
+except redis.RedisError as e:
+    log.error(str(e))
+
     print("500")
     sys.exit()
-
-log = logging.getLogger("bottomnine")
-log.setLevel(logging.DEBUG)
-# create file handler which logs even debug messages
-fh = logging.FileHandler("bottomnine.log")
-fh.setLevel(logging.DEBUG)
-
-log.addHandler(fh)
 
 # begin
 

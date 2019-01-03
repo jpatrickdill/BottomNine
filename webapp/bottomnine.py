@@ -3,7 +3,7 @@ import subprocess
 
 import redis
 from flask import Blueprint, render_template, jsonify
-
+import platform
 bottom_nine = Blueprint("main", __name__)
 
 from webapp import app
@@ -22,8 +22,12 @@ fh.setLevel(logging.DEBUG)
 
 log.addHandler(fh)
 
-
 # create console handler with a higher log level
+
+
+python = "python3"
+if platform.system() == "Windows":
+    python = "python"
 
 
 @bottom_nine.route("/")
@@ -35,7 +39,7 @@ def main():
 def get_top_posts(username):
     username = username.lower()
 
-    proc = subprocess.Popen(["python", "./background/scrape.py", username],
+    proc = subprocess.Popen([python, "./background/scrape.py", username],
                             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     out = proc.stdout.read(3)
@@ -78,7 +82,7 @@ def make_image(username):
 
     log.debug("make image request for {}".format(username))
 
-    proc = subprocess.Popen(["python", "./background/makegrid.py", username],
+    proc = subprocess.Popen([python, "./background/makegrid.py", username],
                             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     out = proc.stdout.read(3)
