@@ -12,6 +12,3 @@ app.register_blueprint(bottom_nine)
 @app.route("/css/<path:path>")
 def css(path):
     return send_from_directory("../static", path)
-
-
-app.run("localhost", 3000, debug=True)
