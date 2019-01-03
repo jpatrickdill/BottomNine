@@ -182,8 +182,8 @@ try:
     draw.text((600 - tx / 2, 1255 - ty / 2), TEXT, fill=(255, 255, 255), font=big, spacing=6)
 
     # small text
-    tx, ty = draw.textsize("paric.xyz", small, spacing=12)
-    draw.text((600 - tx / 2, 1362 - ty / 2), "paric.xyz", fill=(255, 255, 255), font=small, spacing=12)
+    tx, ty = draw.textsize("http://paric.xyz/", small, spacing=12)
+    draw.text((600 - tx / 2, 1362 - ty / 2), "http://paric.xyz/", fill=(255, 255, 255), font=small, spacing=12)
 
     buffer = BytesIO()
 
