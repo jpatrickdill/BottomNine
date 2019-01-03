@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}Bottom Nine{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="/css/bottom_nine.css">
+
+
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function () {
+            let startButton = $("#start");
+            let usernameInput = $("#username");
+            let inputDiv = $("#userinput");
+
+            let checkingAlready = false;
+
+            startButton.click(function () {
+                if (checkingAlready) {
+                    return;
+                }
+
+                checkingAlready = true;
+
+                console.log("clicked");
+
+                usernameInput.attr("disabled", true);
+
+                let username = usernameInput.val();
+
+                $.get("/top/" + username).done(function (data) {
+                    console.log(data);
+
+                    let code = data.message;
+                    let err = "";
+
+                    if (code === "404") {
+                        err = "User does not exist."
+                    } else if (code === "PRV") {
+                        err = `${username} is private. Try making the account public.`
+                    }
+
+                    console.log(err);
+
+                    $("#usererr").html(err);
+                }).fail(function (err) {
+                    console.log(err);
+
+                    $("#usererr").val(err);
+                }).always(function () {
+                    usernameInput.attr("disabled", false);
+                    checkingAlready = false;
+                });
+            });
+        })
+    </script>
+{% endblock %}
+
+{% block precontent %}
+
+    <div id="heading">
+        <h1>2018 was great, right?</h1>
+    </div>
+
+{% endblock %}
+
+{% block content %}
+
+    <p><b>In fact,</b> 2018 went so well, I think it's important to look back on where you
+        started.</p>
+
+    <p>The sad reality of living here on planet Earth is that sometimes, people really
+        don't care. And no, I'm not talking about the huge social media addicted population that claims
+        to care about world issues and the betterment of society despite the fact that they do nothing
+        to make a difference.</p>
+
+    <p>I'm talking about you and your precious Instagram posts! Let's look at some of your
+        least liked posts of the year.</p>
+
+
+    <div id="userinput">
+        <input type="text" id="username" class="input" placeholder="username">
+        <input type="button" id="start" class="button" value="go">
+    </div>
+
+    <p class="err" id="usererr"></p>
+
+
+{% endblock %}

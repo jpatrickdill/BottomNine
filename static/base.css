@@ -1,0 +1,58 @@
+
+/* --- */
+
+body {
+    font-size: 1em;
+
+    background-color: white;
+    color: #171717;
+
+    margin: 0;
+}
+
+a {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+a:visited {
+    color: #171717;
+}
+
+#top {
+    background-color: black;
+    color: white;
+
+    font-family: "Inconsolata", Consolas, monospace;
+
+    padding: 5px 10%;
+
+}
+
+#top a {
+    text-decoration: none;
+}
+
+#top a:visited {
+    color: white;
+}
+
+#content {
+    margin: 0;
+    padding: 50px 15%;
+
+    font-size: 1.33em;
+}
+
+/* mobile overwrites */
+
+@media only screen and (max-width: 600px) {
+    #top {
+        padding: 5px 20pt;
+    }
+
+    #content {
+        padding: 10px 20pt;
+        font-size: 1em;
+    }
+}
