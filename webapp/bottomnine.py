@@ -21,7 +21,9 @@ def main():
 
 @bottom_nine.route("/top/<username>")
 def get_top_posts(username):
-    proc = subprocess.Popen(["python", "./background/makegrid.py", username],
+    username = username.lower()
+
+    proc = subprocess.Popen(["python", "./background/scrape.py", username],
                             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     out = proc.stdout.read(3)
@@ -34,7 +36,7 @@ def get_top_posts(username):
 
 @bottom_nine.route("/progress/<username>")
 def get_progress(username):
-    key = username
+    key = username.lower()
 
     if not conn.exists(key):
         return jsonify({
@@ -47,10 +49,33 @@ def get_progress(username):
     if progress == "done":
         return jsonify({
             "progress": "100.0%",
+            "status": 200
         })
     else:
-        progress = "{0:.1f}%".format(eval(progress)*100)
+        progress = "{0:.1f}%".format(eval(progress) * 100)
 
         return jsonify({
-            "progress": progress
+            "progress": progress,
+            "status": 200
         })
+
+
+@bottom_nine.route("/makegrid/<username>", methods=("POST",))
+def make_image(username):
+    username = username.lower()
+
+    proc = subprocess.Popen(["python", "./background/makegrid.py", username],
+                            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+    out = proc.stdout.read(3)
+
+    if out == "404":
+        return jsonify({
+            "error": "user hasn't been scanned",
+            "status": 404
+        }), 404
+
+    return jsonify({
+        "message": "image being generated",
+        "status": 200,
+    })
