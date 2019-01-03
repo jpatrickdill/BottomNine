@@ -3,7 +3,7 @@
 {% block title %}Bottom Nine{% endblock %}
 
 {% block head %}
-    <link rel="stylesheet" type="text/css" href="/css/bottom_nine.css">
+    <link rel="stylesheet" type="text/css" href="/css/bottom_nine.css?v=2">
 
 
     <script
@@ -33,17 +33,35 @@
         }
 
         function afterScanned(username) {
-            $.post("/makegrid/"+username).done(function(data) {
+            $.post("/makegrid/" + username).done(function (data) {
                 console.log(data);
 
                 $("#scanningPosts").remove();
 
                 $("#whileWeWait").html("Generating grid...");
 
-            }).fail(function(err) {
+                let getImage = setInterval(function () {
+                    $.get("/cdn/" + username).done(function (data) {
+                        console.log(data);
+
+                        if (data.exists) {
+                            clearInterval(getImage);
+
+                            afterImage(data)
+                        }
+                    });
+                }, 2000)
+
+            }).fail(function (err) {
                 console.log(err);
             });
 
+        }
+
+        function afterImage(data) {
+            $("#grid").html(`<img id="posts" src="${data.url}">`)
+
+            $("#whileWeWait").remove();
         }
 
         $(document).ready(function () {
@@ -53,7 +71,7 @@
 
             let checkingAlready = false;
 
-            usernameInput.keyup(function(e) {
+            usernameInput.keyup(function (e) {
                 if (e.keyCode === 13) {
                     startButton.trigger("click");
                 }
@@ -137,7 +155,7 @@
     </div>
 
     <div id="scanning" class="hidden">
-        <p id="scanningPosts">Scanning posts...</p>
+        <p id="scanningPosts">(may take a few seconds to start)</p>
 
         <div class="progress">
             <div class="bar" id="progressbar">0.0%</div>
@@ -146,6 +164,10 @@
         <p id="whileWeWait">While we wait, how does it feel having your data searched through? Fun fact:
             over 90% of the websites you visit do it all the time! At least I'm nice enough
             to tell you.</p>
+    </div>
+
+    <div id="grid">
+
     </div>
 
 

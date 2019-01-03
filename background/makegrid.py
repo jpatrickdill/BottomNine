@@ -1,6 +1,10 @@
 import json
 import os
 import sys
+import shutil
+from io import BytesIO
+
+import redis
 
 from PIL import Image, ImageDraw, ImageFont
 from gevent import monkey
@@ -10,6 +14,8 @@ monkey.patch_all()
 
 import gevent
 
+import cloudinary
+import cloudinary.uploader
 import requests
 
 # config
@@ -21,6 +27,20 @@ IMAGE_TEMP = config["IMAGE_TEMP"]
 
 FONT = config["FONT"]
 TEXT = config["TEXT"]
+
+cloudinary.config(**config["CLOUDINARY"])
+
+REDIS_ENDPOINT = config["REDIS_ENDPOINT"]
+REDIS_PORT = config["REDIS_PORT"]
+REDIS_PASSWORD = config["REDIS_PASSWORD"]
+
+try:
+    conn = redis.Redis(REDIS_ENDPOINT, REDIS_PORT, password=REDIS_PASSWORD)
+except redis.RedisError:
+    print("500")
+    sys.exit()
+
+# begin
 
 username = sys.argv[1]
 posts_path = "{}/{}.json".format(JSON_FOLDER, username)
@@ -150,4 +170,21 @@ draw.text((600 - tx / 2, 1255 - ty / 2), TEXT, fill=(255, 255, 255), font=big, s
 tx, ty = draw.textsize("paric.xyz", small, spacing=12)
 draw.text((600 - tx / 2, 1362 - ty / 2), "paric.xyz", fill=(255, 255, 255), font=small, spacing=12)
 
-img.save("{}/{}.png".format(IMAGE_TEMP, username))
+buffer = BytesIO()
+
+img.save(buffer, "png")
+
+buffer.seek(0)
+
+resp = cloudinary.uploader.upload(buffer)
+
+conn.set("images.{}".format(username), resp["url"])
+
+print("upload successful")
+
+# delete tmp files and redis progress value
+
+shutil.rmtree(img_temp)
+os.remove("{}/{}.json".format(JSON_FOLDER, username))
+
+conn.delete(username)

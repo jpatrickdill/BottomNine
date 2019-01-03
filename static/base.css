@@ -1,5 +1,8 @@
-
 /* --- */
+
+html, body {
+    height: 100%;
+}
 
 body {
     font-size: 1em;
@@ -38,10 +41,22 @@ a:visited {
 }
 
 #content {
-    margin: 0;
     padding: 50px 15%;
 
     font-size: 1.33em;
+
+    min-height: 60%;
+}
+
+
+
+footer {
+    background-color: black;
+    color: white;
+
+    font-family: Inconsolata, monospace;
+
+    padding: 10px 15%;
 }
 
 /* mobile overwrites */

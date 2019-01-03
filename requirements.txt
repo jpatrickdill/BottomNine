@@ -4,3 +4,4 @@ flask
 instagram-scraper
 pillow
 gevent
+cloudinary

@@ -64,10 +64,10 @@ def get_progress(username):
 def make_image(username):
     username = username.lower()
 
-    proc = subprocess.Popen(["python", "./background/makegrid.py", username],
-                            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    proc = subprocess.Popen(["python", "./background/makegrid.py", username],)
+                            #stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-    out = proc.stdout.read(3)
+    out = 200 # proc.stdout.read(3)
 
     if out == "404":
         return jsonify({
@@ -79,3 +79,20 @@ def make_image(username):
         "message": "image being generated",
         "status": 200,
     })
+
+
+@bottom_nine.route("/cdn/<username>")
+def get_cdn_url(username):
+    username = username.lower()
+    key = "images.{}".format(username)
+
+    if conn.exists(key):
+        return jsonify({
+            "exists": True,
+            "url": conn.get(key)
+        }), 200
+
+    else:
+        return jsonify({
+            "exists": False,
+        }), 404
