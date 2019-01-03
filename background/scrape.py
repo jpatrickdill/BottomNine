@@ -26,7 +26,6 @@ IG_PASS = config["INSTAGRAM_PASS"]
 JSON_FOLDER = config["JSON_FOLDER"]
 
 
-
 def eprint(*args, **kwargs):
     """
     Prints to STDERR
@@ -82,18 +81,18 @@ try:
     conn.set(key, "0/{}".format(num_posts), ex=400)
 
     cmd = ["instagram-scraper", username, "--media-types", "none", "--media-metadata",
-         "--destination", JSON_FOLDER,
-         "-u", IG_USER, "-p", IG_PASS]
+           "--destination", JSON_FOLDER,
+           "-u", IG_USER, "-p", IG_PASS]
 
     if platform.system() == "Windows":
-        cmd = ["python", "background/instagram-scraper-script.py", username, "--media-types", "none", "--media-metadata",
-         "--destination", JSON_FOLDER,
-         "-u", IG_USER, "-p", IG_PASS]
+        cmd = ["python", "background/instagram-scraper-script.py", username, "--media-types", "none",
+               "--media-metadata",
+               "--destination", JSON_FOLDER,
+               "-u", IG_USER, "-p", IG_PASS]
 
     # begin media search process
-    process = subprocess.Popen(
-        ,
-        stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.Popen(cmd,
+                               stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     progress = process.stderr.read(64)
 
