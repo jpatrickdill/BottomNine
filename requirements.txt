@@ -2,3 +2,5 @@ redis
 requests
 flask
 instagram-scraper
+pillow
+gevent

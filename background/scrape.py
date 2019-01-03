@@ -22,6 +22,8 @@ REDIS_PASSWORD = config["REDIS_PASSWORD"]
 IG_USER = config["INSTAGRAM_USER"]
 IG_PASS = config["INSTAGRAM_PASS"]
 
+JSON_FOLDER = config["JSON_FOLDER"]
+
 
 def eprint(*args, **kwargs):
     """
@@ -80,7 +82,7 @@ try:
     # begin media search process
     process = subprocess.Popen(
         ["python", "background/instagram-scraper-script.py", username, "--media-types", "none", "--media-metadata",
-         "--destination", "background/scraper/",
+         "--destination", JSON_FOLDER,
          "-u", IG_USER, "-p", IG_PASS],
         stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
