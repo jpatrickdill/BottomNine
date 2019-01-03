@@ -34,7 +34,8 @@
                     }
                 });
 
-                $("#spe").html(ellipses[i%2]);  /* moving "..." so user knows it's working! */
+                $("#spe").html(ellipses[i % 2]);
+                /* moving "..." so user knows it's working! */
                 i++;
             }, 2500);
         }
@@ -89,49 +90,65 @@
                 if (checkingAlready) {
                     return;
                 }
-
                 checkingAlready = true;
 
-                console.log("clicked");
 
                 usernameInput.attr("disabled", true);
-
                 let username = usernameInput.val();
 
-                $.get("/top/" + username).done(function (data) {
+                /* first check if grid has been previously generated */
+
+                console.log("checking if grid has been generated");
+
+                $.get("/cdn/" + username).done(function (data) {
                     console.log(data);
 
-                    let code = data.message;
-                    let err = "";
+                    if (data.exists) {
+                        afterImage(data);
+                        console.log("grid already generated");
 
-                    if (code === "404") {
-                        err = "User does not exist."
-                    } else if (code === "PRV") {
-                        err = `${username} is private. Try making the account public.`
-                    } else if (code === "NOP") {
-                        err = `${username} has no posts!`
+                        $("#userinput").remove();
+                    } else {
+                        /* hasn't been generated, continue */
+
+                        console.log("starting profile scan");
+
+                        $.get("/top/" + username).done(function (data) {
+                            console.log(data);
+
+                            let code = data.message;
+                            let err = "";
+
+                            if (code === "404") {
+                                err = "User does not exist."
+                            } else if (code === "PRV") {
+                                err = `${username} is private. Try making the account public.`
+                            } else if (code === "NOP") {
+                                err = `${username} has no posts!`
+                            }
+
+                            console.log(err);
+
+                            $("#usererr").html(err);
+
+                            if (!err) {
+                                gridProgress(username);
+
+                                $("#userinput").remove();
+                                $("#scanning").removeClass("hidden");
+                            }
+                        }).fail(function (err) {
+                            console.log(err);
+
+                            $("#usererr").val(err);
+                        }).always(function () {
+                            usernameInput.attr("disabled", false);
+                            checkingAlready = false;
+                        });
                     }
-
-                    console.log(err);
-
-                    $("#usererr").html(err);
-
-                    if (!err) {
-                        gridProgress(username);
-
-                        $("#userinput").addClass("hidden");
-                        $("#scanning").removeClass("hidden");
-                    }
-                }).fail(function (err) {
-                    console.log(err);
-
-                    $("#usererr").val(err);
-                }).always(function () {
-                    usernameInput.attr("disabled", false);
-                    checkingAlready = false;
                 });
             });
-        })
+        });
     </script>
 {% endblock %}
 

@@ -79,9 +79,9 @@ try:
     key = username
 
     if conn.exists(key):
-        eprint("ABG".format(username))
+        eprint("ABG")
 
-    print("SCN")
+    print("SCN", end="", flush=True)
 
     conn.set(key, "0/{}".format(num_posts), ex=400)
 

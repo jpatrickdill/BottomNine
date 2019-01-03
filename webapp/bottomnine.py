@@ -117,4 +117,4 @@ def get_cdn_url(username):
     else:
         return jsonify({
             "exists": False,
-        }), 404
+        }), 200
