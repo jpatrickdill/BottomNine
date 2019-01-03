@@ -59,6 +59,14 @@ footer {
     padding: 10px 15%;
 }
 
+footer a {
+    color: white;
+}
+
+footer a:visited {
+    color: white;
+}
+
 /* mobile overwrites */
 
 @media only screen and (max-width: 600px) {
