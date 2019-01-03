@@ -1,6 +1,7 @@
 from __future__ import print_function
 
 import json
+import platform
 import subprocess
 import sys
 import re
@@ -80,11 +81,18 @@ try:
 
     conn.set(key, "0/{}".format(num_posts), ex=400)
 
+    cmd = ["instagram-scraper", username, "--media-types", "none", "--media-metadata",
+         "--destination", JSON_FOLDER,
+         "-u", IG_USER, "-p", IG_PASS]
+
+    if platform.system() == "Windows":
+        cmd = ["python", "background/instagram-scraper-script.py", username, "--media-types", "none", "--media-metadata",
+         "--destination", JSON_FOLDER,
+         "-u", IG_USER, "-p", IG_PASS]
+
     # begin media search process
     process = subprocess.Popen(
-        ["python", "background/instagram-scraper-script.py", username, "--media-types", "none", "--media-metadata",
-         "--destination", JSON_FOLDER,
-         "-u", IG_USER, "-p", IG_PASS],
+        ,
         stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     progress = process.stderr.read(64)
