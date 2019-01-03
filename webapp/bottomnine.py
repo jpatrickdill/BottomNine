@@ -1,8 +1,17 @@
 import subprocess
 
+import redis
 from flask import Blueprint, render_template, jsonify
 
 bottom_nine = Blueprint("main", __name__)
+
+from webapp import app
+
+REDIS_ENDPOINT = app.config["REDIS_ENDPOINT"]
+REDIS_PORT = app.config["REDIS_PORT"]
+REDIS_PASSWORD = app.config["REDIS_PASSWORD"]
+
+conn = redis.Redis(REDIS_ENDPOINT, REDIS_PORT, password=REDIS_PASSWORD)
 
 
 @bottom_nine.route("/")
@@ -21,3 +30,27 @@ def get_top_posts(username):
         "message": out,
         "error": ""
     })
+
+
+@bottom_nine.route("/progress/<username>")
+def get_progress(username):
+    key = username
+
+    if not conn.exists(key):
+        return jsonify({
+            "error": "user not being scanned",
+            "status": 404
+        }), 404
+
+    progress = conn.get(key)
+
+    if progress == "done":
+        return jsonify({
+            "progress": "100.0%",
+        })
+    else:
+        progress = "{0:.1f}%".format(eval(progress)*100)
+
+        return jsonify({
+            "progress": progress
+        })

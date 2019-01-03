@@ -12,6 +12,20 @@
             crossorigin="anonymous"></script>
 
     <script>
+        function progressUntilDone(username) {
+            let progressBarUpdate = setInterval(function () {
+                let progress = "0%";
+
+                $.get("/progress/" + username).done(function(data) {
+                    console.log(data);
+
+                    progress = data.progress;
+
+                    $("#progressbar").html(progress).css("width", progress);
+                });
+            }, 5000);
+        }
+
         $(document).ready(function () {
             let startButton = $("#start");
             let usernameInput = $("#username");
@@ -47,6 +61,13 @@
                     console.log(err);
 
                     $("#usererr").html(err);
+
+                    if (!err) {
+                        progressUntilDone(username);
+
+                        $("#userinput").addClass("hidden");
+                        $("#scanning").removeClass("hidden");
+                    }
                 }).fail(function (err) {
                     console.log(err);
 
@@ -85,9 +106,23 @@
     <div id="userinput">
         <input type="text" id="username" class="input" placeholder="username">
         <input type="button" id="start" class="button" value="go">
+
+        <p class="err" id="usererr"></p>
     </div>
 
-    <p class="err" id="usererr"></p>
+    <div id="scanning" class="hidden">
+        <p>Scanning posts...</p>
+
+        <div class="progress">
+            <div class="bar" id="progressbar">0.0%</div>
+        </div>
+
+        <p>While we wait, how does it feel having your data searched through? Fun fact:
+            Over 90% of the websites you visit do it all the time! At least I'm nice enough
+            to tell you.</p>
+    </div>
+
+
 
 
 {% endblock %}

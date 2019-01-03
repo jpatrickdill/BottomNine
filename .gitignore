@@ -1,2 +1,4 @@
 webapp/config.json
 venv/
+.idea/
+instagram-scraper.log

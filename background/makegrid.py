@@ -99,8 +99,7 @@ try:
 
         progress = process.stderr.read(64)
 
-    print("done")
-    conn.set(key, "done")
+    conn.set(key, "{0}/{0}".format(num_posts))
 
     print()
 except redis.RedisError as e:
