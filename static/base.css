@@ -78,4 +78,8 @@ footer a:visited {
         padding: 10px 20pt;
         font-size: 1em;
     }
+
+    footer {
+        padding: 10px 20pt;
+    }
 }
