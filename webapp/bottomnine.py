@@ -65,6 +65,7 @@ def get_progress(username):
     if progress == "done":
         return jsonify({
             "progress": "100.0%",
+            "finished": True,
             "status": 200
         })
     else:
@@ -72,6 +73,7 @@ def get_progress(username):
 
         return jsonify({
             "progress": progress,
+            "finished": True if progress == "100.0%" else False,
             "status": 200
         })
 

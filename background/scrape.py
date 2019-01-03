@@ -63,8 +63,13 @@ info = get_user_info(username)
 if info == 404:
     eprint("404")
 
+# check if private
 if info["is_private"]:
     eprint("PRV")
+
+# check if user has no posts
+if info["edge_owner_to_timeline_media"]["count"] == 0:
+    eprint("NOP")
 
 num_posts = info["edge_owner_to_timeline_media"]["count"]
 
