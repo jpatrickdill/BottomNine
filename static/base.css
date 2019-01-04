@@ -2,6 +2,8 @@
 
 html, body {
     height: 100%;
+' margin: 0;
+    padding: 0;
 }
 
 body {
@@ -26,7 +28,7 @@ a:visited {
     background-color: black;
     color: white;
 
-    font-family: "Inconsolata", Consolas, monospace;
+    font-family: "Inconsolata", monospace;
 
     padding: 5px 10%;
 
@@ -34,6 +36,16 @@ a:visited {
 
 #top a {
     text-decoration: none;
+    font-weight: normal;
+}
+
+#top a::after {
+    content: "|";
+    font-weight: normal;
+
+    cursor: default;
+
+    margin: 0 32px;
 }
 
 #top a:visited {
@@ -47,8 +59,6 @@ a:visited {
 
     min-height: 60%;
 }
-
-
 
 footer {
     background-color: black;
@@ -72,6 +82,19 @@ footer a:visited {
 @media only screen and (max-width: 600px) {
     #top {
         padding: 5px 20pt;
+    }
+
+    #top a {
+        display: block;
+
+        text-decoration: none;
+        font-weight: normal;
+
+        margin: 2px 0;
+    }
+
+    #top a::after {
+        content: "";
     }
 
     #content {

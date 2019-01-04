@@ -1,6 +1,5 @@
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory, render_template
 from flask_caching import Cache
-
 
 app = Flask(__name__, template_folder="./../templates/")
 
@@ -21,7 +20,7 @@ cache = Cache(app, config={
 
 from webapp.bottomnine import bottom_nine
 
-app.register_blueprint(bottom_nine)
+app.register_blueprint(bottom_nine, url_prefix="/bottom-nine")
 
 
 @app.route("/css/<path:path>")
@@ -36,6 +35,14 @@ if ANALYTICS:
     @app.context_processor
     def inject_analytics():
         return dict(analytics=ANALYTICS)
+
+
+# front page #
+
+@app.route("/")
+def front_page():
+    return render_template("front_page.html")
+
 
 ###
 

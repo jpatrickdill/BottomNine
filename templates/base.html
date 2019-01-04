@@ -15,6 +15,34 @@
 
     <link rel="stylesheet" type="text/css" href="/css/base.css?v=3">
 
+
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+
+    <script>
+        /* make button for this page bold on top bar */
+
+        let path = window.location.pathname;
+
+        $(document).ready(function () {
+            if (path === "/" || path === "") {
+                $("#top a").first().css("font-weight", "bold")
+            } else {
+                $("#top a").each(function (idx, itm) {
+                    console.log(itm);
+
+                    if (itm.href.endsWith(path)) {
+                        $(itm).css("font-weight", "bold");
+                    }
+                });
+            }
+        });
+
+    </script>
+
+
     {% if analytics %}
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id={{ analytics }}"></script>
@@ -37,7 +65,8 @@
 <body>
 
 <div id="top">
-    <a href="/">bottom nine</a>
+    <a href="/">paric.xyz</a>
+    <a href="/bottom-nine/" class="last">bottom nine</a>
 </div>
 
 {% block precontent %}{% endblock %}
@@ -47,7 +76,7 @@
 </div>
 
 <footer>
-    <p><a href="http://twitter.com/paricdil/">http://twitter.com/paricdil/</a></p>
+    <p><a href="http://twitter.com/paricdil/">Twitter</a></p>
     <p>Copyright (c) 2019 Patrick Dill</p>
 </footer>
 

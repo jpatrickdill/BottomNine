@@ -5,7 +5,7 @@ import subprocess
 import redis
 from flask import Blueprint, render_template, jsonify
 
-bottom_nine = Blueprint("main", __name__)
+bottom_nine = Blueprint("bottomnine", __name__)
 
 from webapp import app
 

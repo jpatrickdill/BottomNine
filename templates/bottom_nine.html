@@ -5,13 +5,9 @@
 {% block head %}
     <link rel="stylesheet" type="text/css" href="/css/bottom_nine.css?v=3">
 
-
-    <script
-            src="https://code.jquery.com/jquery-3.3.1.min.js"
-            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-            crossorigin="anonymous"></script>
-
     <script>
+        let url_prefix = "/bottom-nine";
+
         function gridProgress(username) {
             let i = 0;
             let ellipses = ["...", " ..."];
@@ -19,7 +15,7 @@
             let progressBarUpdate = setInterval(function () {
                 let progress = "0%";
 
-                $.get("/progress/" + username).done(function (data) {
+                $.get(url_prefix + "/progress/" + username).done(function (data) {
 
                     console.log(data);
 
@@ -41,7 +37,7 @@
         }
 
         function afterScanned(username) {
-            $.post("/makegrid/" + username).done(function (data) {
+            $.post(url_prefix + "/makegrid/" + username).done(function (data) {
                 console.log(data);
 
                 $("#scanningPosts").remove();
@@ -50,7 +46,7 @@
                 $("#whileWeWait").html("Generating grid...");
 
                 let getImage = setInterval(function () {
-                    $.get("/cdn/" + username).done(function (data) {
+                    $.get(url_prefix + "/cdn/" + username).done(function (data) {
                         console.log(data);
 
                         if (data.exists) {
@@ -100,7 +96,7 @@
 
                 console.log("checking if grid has been generated");
 
-                $.get("/cdn/" + username).done(function (data) {
+                $.get(url_prefix + "/cdn/" + username).done(function (data) {
                     console.log(data);
 
                     if (data.exists) {
@@ -113,7 +109,7 @@
 
                         console.log("starting profile scan");
 
-                        $.get("/top/" + username).done(function (data) {
+                        $.get(url_prefix + "/top/" + username).done(function (data) {
                             console.log(data);
 
                             let code = data.message;
