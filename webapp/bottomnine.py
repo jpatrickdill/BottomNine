@@ -1,9 +1,10 @@
 import logging
+import platform
 import subprocess
 
 import redis
 from flask import Blueprint, render_template, jsonify
-import platform
+
 bottom_nine = Blueprint("main", __name__)
 
 from webapp import app
@@ -21,6 +22,9 @@ fh = logging.FileHandler("bottomnine.log")
 fh.setLevel(logging.DEBUG)
 
 log.addHandler(fh)
+
+# redis cache
+
 
 # create console handler with a higher log level
 

@@ -5,3 +5,4 @@ instagram-scraper
 pillow
 gevent
 cloudinary
+Flask-Caching
