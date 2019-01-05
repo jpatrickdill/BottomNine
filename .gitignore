@@ -2,3 +2,6 @@ webapp/config.json
 venv/
 .idea/
 instagram-scraper.log
+bottomnine.log
+config.json
+*.pyc
