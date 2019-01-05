@@ -37,22 +37,26 @@ a, a:visited {
 }
 
 .item {
-    padding: 10px 15%;
+    padding: 30px 15%;
 }
 
 .item h3 {
-    margin-bottom: 0;
+    margin: 0;
 }
 .item p {
     margin: 8px 0;
 }
 
 
-.item p.item-footer {
-    margin-top: 10px;
-    margin-bottom: 18px;
+.item .item-footer {
+    margin: 10px 0 0 0;
 
     font-size: 0.7em;
+}
+
+.item-links {
+    font-size: 0.85em;
+    text-decoration: none;
 }
 
 .alt {

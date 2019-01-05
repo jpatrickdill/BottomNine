@@ -1,4 +1,5 @@
 from flask import Flask, send_from_directory, render_template
+
 # from flask_caching import Cache
 
 app = Flask(__name__, template_folder="./../templates/")
@@ -42,6 +43,13 @@ if ANALYTICS:
 @app.route("/")
 def front_page():
     return render_template("front_page.html")
+
+
+# basic pages
+
+@app.route("/python/")
+def python_projects():
+    return render_template("python.html")
 
 
 ###

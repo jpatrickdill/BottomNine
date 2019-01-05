@@ -48,6 +48,10 @@ a:visited {
     margin: 0 32px;
 }
 
+#top .last::after {
+    content: "";
+}
+
 #top a:visited {
     color: white;
 }
@@ -75,6 +79,16 @@ footer a {
 
 footer a:visited {
     color: white;
+}
+
+footer ul {
+    padding: 0;
+}
+
+footer li {
+    list-style: none;
+
+    margin: 3px 0;
 }
 
 /* mobile overwrites */

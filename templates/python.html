@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Python - Patrick Dill{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="/css/list_page.css?v=3">
+
+{% endblock %}
+
+
+{% block precontent %}
+
+    <div id="page-title">
+        <h1>Python Tools</h1>
+    </div>
+
+{% endblock %}
+
+
+{% block content %}
+
+    <article class="item">
+        <h3><a href="http://faste.paric.xyz">Faste</a></h3>
+        <p>Python library for dictionary based caching.</p>
+
+        <div class="item-links">
+            <a href="http://faste.paric.xyz">Documentation</a>
+            |
+            <a href="https://github.com/jpatrickdill/faste">GitHub</a>
+            |
+            <a href="https://pypi.org/project/faste/">PyPI</a>
+        </div>
+    </article>
+
+    <article class="item alt">
+        <h3><a href="https://github.com/jpatrickdill/pipurge">Pipurge</a></h3>
+        <p>Tool to quickly uninstall packages at system level or in a virtualenv.</p>
+
+        <div class="item-links">
+            <a href="https://github.com/jpatrickdill/pipurge">GitHub</a>
+            |
+            <a href="https://pypi.org/project/pipurge/">PyPI</a>
+        </div>
+    </article>
+
+
+{% endblock %}
