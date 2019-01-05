@@ -74,6 +74,8 @@ a, a:visited {
     }
 
     .item {
-        padding: 10px 20pt;
+        padding: 15pt 20pt;
+
+        font-size: 95%;
     }
 }
