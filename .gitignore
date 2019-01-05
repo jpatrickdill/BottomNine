@@ -1,6 +1,7 @@
 webapp/config.json
 venv/
 .idea/
+node_modules/
 instagram-scraper.log
 bottomnine.log
 config.json
