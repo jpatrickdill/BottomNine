@@ -7,13 +7,7 @@ from flask import Blueprint, render_template, jsonify
 
 bottom_nine = Blueprint("bottomnine", __name__)
 
-from webapp import app
-
-REDIS_ENDPOINT = app.config["REDIS_ENDPOINT"]
-REDIS_PORT = app.config["REDIS_PORT"]
-REDIS_PASSWORD = app.config["REDIS_PASSWORD"]
-
-conn = redis.Redis(REDIS_ENDPOINT, REDIS_PORT, password=REDIS_PASSWORD)
+from webapp import app, conn
 
 log = logging.getLogger("bottomnine")
 log.setLevel(logging.DEBUG)
@@ -22,11 +16,6 @@ fh = logging.FileHandler("bottomnine.log")
 fh.setLevel(logging.DEBUG)
 
 log.addHandler(fh)
-
-# redis cache
-
-
-# create console handler with a higher log level
 
 
 python = "python3"
