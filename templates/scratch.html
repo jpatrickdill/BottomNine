@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Scratch Account Verification{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="/css/scratch.css">
+
+    {% if logged_in %}
+        <script>
+            /* Continue checking until verified */
+
+            let pin = "{{ pin }}";
+            let acc_id = "{{ user_data["id"] }}";
+
+            $(document).ready(function () {
+                let checkVerified = setInterval(function () {
+                    $.get(`/scratch/verified/?pin=${pin}&id=${acc_id}`, function (data) {
+                        console.log(data);
+
+                        if (data.verified) {
+                            clearInterval(checkVerified);
+
+                            $(".box-content").html("<p><b>Verification complete!</b></p>" +
+                                `<p>You were successfully verified as ${data.username}.`);
+
+                            document.title = "Verification complete";
+                        }
+                    });
+                }, 1500);
+            });
+        </script>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="box-header">
+        <h4>Scratch Account Verification</h4>
+    </div>
+    <div class="box-content">
+        {% if not logged_in %}
+            <br>
+            <a href="/scratch/discord" class="button">
+                <span>Sign in with</span>
+                <img src="https://discordapp.com/assets/192cb9459cbc0f9e73e2591b700f1857.svg"
+                     alt="Discord">
+            </a>
+            <p>Sign in to link to your Scratch account.</p>
+        {% else %}
+            <p><b>Hi, {{ user_data["username"] }}!</b></p>
+
+            {% if scratch_user != None %}
+                <p>You're already verified as
+                    <a href="https://scratch.mit.edu/users/{{ scratch_user["username"] }}/">{{ scratch_user["username"] }}</a>.
+                    Verifying again will replace this.
+                </p>
+            {% endif %}
+
+            <p>To verify your Scratch account,
+                <a href="https://scratch.mit.edu/projects/277359774/" target="_blank">visit this project</a>
+                and enter your PIN:</p>
+
+            <p class="pin">{{ pin }}</p>
+
+            <a href="/scratch/cancel" class="cancel">Cancel</a>
+
+            <p></p>
+        {% endif %}
+    </div>
+
+{% endblock %}

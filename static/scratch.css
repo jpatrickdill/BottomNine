@@ -1,0 +1,111 @@
+#top, body {
+    background: #4d97ff
+}
+
+footer {
+    display: none;
+}
+
+#content {
+    padding: 0;
+
+    font-family: "Helvetica Neue", "Helvetica", Arial, sans-serif;
+    color: #575e75;
+
+    max-width: 600px;
+    min-height: 100px;
+
+    border-radius: 10px;
+
+    margin: 100px auto;
+
+    background: white;
+    box-shadow: 0 0 30px rgba(0, 0, 0, .4);
+}
+
+#content a, #content a:visited {
+    color: #4280d7;
+    text-decoration: none;
+}
+
+.box-header {
+    background-color: #f2f2f2;
+    border-radius: 10px 10px 0 0;
+
+    height: 40px;
+
+    border: 1px solid #d9d9d9
+}
+
+.box-header h4 {
+    margin: 0;
+    padding: 8px 20px;
+}
+
+.box-content {
+    padding: 10px 20px;
+
+    font-size: 18px;
+    text-align: center;
+}
+
+a.button {
+    background-color: #ff8c1a;
+
+    font-weight: normal;
+
+    font-size: 22px;
+    text-decoration: none;
+
+    text-align: center;
+    height: 48px;
+    line-height: 48px;
+
+    padding: 0 12px;
+
+    display: inline-block;
+    border-radius: 5px;
+
+    transition: all 100ms ease-in-out;
+
+    margin: 0 auto;
+}
+
+a.button:hover {
+    background-color: #d67118;
+}
+
+.button img {
+    height: 36px;
+    margin: 5px 0;
+
+    vertical-align: middle;
+}
+
+a span, a:visited span {
+    color: white;
+    text-decoration: none;
+}
+
+
+.pin {
+    font-family: Inconsolata, monospace;
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    font-size: 32px;
+}
+
+a.cancel {
+    font-size: 14px;
+    font-weight: normal;
+}
+
+/* mobile overwrites */
+
+@media only screen and (max-width: 800px) {
+    #content {
+        max-width: calc(100% - 25pt);
+    }
+}
