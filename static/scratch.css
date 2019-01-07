@@ -102,6 +102,57 @@ a.cancel {
     font-weight: normal;
 }
 
+.bottom-right {
+    font-family: "Helvetica Neue", "Helvetica", Arial, sans-serif;
+    color: rgba(255, 255, 255, 0.75);
+
+    font-size: 18px;
+
+    position: fixed;
+
+    right: 12.5pt;
+    bottom: 12.5pt;
+}
+
+.bottom-right a {
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+
+    transition: all 100ms ease-in-out;
+}
+
+.bottom-right a:hover {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+code {
+    font-family: Inconsolata, Consolas, monospace;
+    font-weight: bold;
+
+    font-size: 18px;
+
+    color: #454545;
+}
+
+pre code {
+    font-size: 16px;
+}
+
+pre {
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+.description p {
+    font-size: 16px;
+    margin-top: 5px;
+}
+
+.description h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
 /* mobile overwrites */
 
 @media only screen and (max-width: 800px) {

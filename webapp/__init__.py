@@ -14,10 +14,11 @@ REDIS_PASSWORD = app.config["REDIS_PASSWORD"]
 conn = redis.Redis(REDIS_ENDPOINT, REDIS_PORT, password=REDIS_PASSWORD)
 
 from webapp.bottomnine import bottom_nine
-from webapp.scratch import scratch
+from webapp.scratch import scratch, scratch_api
 
 app.register_blueprint(bottom_nine, url_prefix="/bottom-nine")
 app.register_blueprint(scratch, url_prefix="/scratch")
+app.register_blueprint(scratch_api, url_prefix="/scratch/api")
 
 
 @app.route("/css/<path:path>")

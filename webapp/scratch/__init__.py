@@ -3,11 +3,13 @@ import logging
 
 import requests
 from authlib.client import OAuth2Session
-from flask import request, session, Blueprint, render_template, redirect, url_for, abort, jsonify
+from flask import request, session, Blueprint, render_template, redirect, url_for, abort
 
 scratch = Blueprint("scratch", __name__)
 
 from webapp import app, conn
+from webapp.scratch.api import api as scratch_api
+
 import random
 
 log = logging.getLogger("bottomnine")
@@ -26,28 +28,7 @@ CLIENT_SECRET = app.config["CLIENT_SECRET"]
 AUTH_URL = app.config["AUTH_URL"]
 ACCESS_TOKEN_URL = app.config["ACCESS_TOKEN_URL"]
 
-API_PREFIX = "https://discordapp.com/api/v6"
-
-PROJECT_ID = "277359774"
-
-
-def check_for_pin(pin):
-    """Check for PIN in project comments and return username if verified."""
-
-    comments = requests.get("https://api.scratch.mit.edu/projects/{}/comments?offset=0&limit=20".format(PROJECT_ID),
-                            headers={
-                                "Origin": "https://scratch.mit.edu",
-                                "Referer": "https://scratch.mit.edu/projects/{}/".format(PROJECT_ID)
-                            }).json()
-
-    for comment in comments:
-        if comment["content"] == str(pin):
-            return {
-                "id": comment["author"]["id"],
-                "username": comment["author"]["username"]
-            }
-
-    return None
+DISCORD_API_PREFIX = "https://discordapp.com/api/v6"
 
 
 def random_pin(digits):
@@ -59,7 +40,7 @@ def main():
     if "token" not in session:
         return render_template("scratch.html", logged_in=False)
 
-    user_data = requests.get(API_PREFIX + "/users/@me", headers={
+    user_data = requests.get(DISCORD_API_PREFIX + "/users/@me", headers={
         "Authorization": session["token"]
     })
 
@@ -82,6 +63,9 @@ def main():
 
     return render_template("scratch.html", logged_in=True, user_data=user_data, pin=pin, scratch_user=scratch_user)
 
+@scratch.route("/docs/")
+def api_docs():
+    return render_template("scratch_API_docs.html")
 
 @scratch.route("/cancel")
 def cancel_login():
@@ -122,41 +106,3 @@ def oauth_complete():
     log.info("authorized user")
 
     return redirect(url_for("scratch.main"))
-
-
-@scratch.route("/verified/")
-def verified_yet():
-    if "pin" not in request.args or "id" not in request.args:
-        return jsonify({
-            "verified": False,
-            "error": "PIN and ID must be specified."
-        }), 400
-
-    pin = int(request.args["pin"])
-
-    account_id = request.args["id"]
-
-    expected = int(conn.get("scratch:verifying.{}".format(account_id)))
-
-    if pin != expected:
-        return jsonify({
-            "verified": False,
-            "error": "Invalid PIN or account ID."
-        }), 400
-
-    scratch_user = check_for_pin(pin)
-
-    if scratch_user is not None:
-        conn.set("scratch:verified.{}".format(account_id), json.dumps(scratch_user))
-        conn.delete("scratch:verifying.{}".format(account_id))
-
-        log.info("verified {}".format(scratch_user["username"]))
-
-        return jsonify({
-            "verified": True,
-            "username": scratch_user["username"]
-        }), 200
-
-    return jsonify({
-        "verified": False
-    }), 200

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Scratch Account Verification{% endblock %}
+{% block title %}Scratch Verify{% endblock %}
 
 {% block head %}
     <link rel="stylesheet" type="text/css" href="/css/scratch.css">
@@ -14,7 +14,7 @@
 
             $(document).ready(function () {
                 let checkVerified = setInterval(function () {
-                    $.get(`/scratch/verified/?pin=${pin}&id=${acc_id}`, function (data) {
+                    $.get(`/scratch/api/verified/?pin=${pin}&id=${acc_id}`, function (data) {
                         console.log(data);
 
                         if (data.verified) {
@@ -23,7 +23,7 @@
                             $(".box-content").html("<p><b>Verification complete!</b></p>" +
                                 `<p>You were successfully verified as ${data.username}.`);
 
-                            document.title = "Verification complete";
+                            document.title = "Verification Complete - Scratch Verify";
                         }
                     });
                 }, 1500);
@@ -54,13 +54,16 @@
                     <a href="https://scratch.mit.edu/users/{{ scratch_user["username"] }}/">{{ scratch_user["username"] }}</a>.
                     Verifying again will replace this.
                 </p>
+                <p>
+                    <a href="/scratch/api/unverify" class="cancel">Unlink account</a>
+                </p>
+            {% else %}
+                <p>To verify your Scratch account,
+                    <a href="https://scratch.mit.edu/projects/277359774/" target="_blank">visit this project</a>
+                    and enter your PIN:</p>
+
+                <p class="pin">{{ pin }}</p>
             {% endif %}
-
-            <p>To verify your Scratch account,
-                <a href="https://scratch.mit.edu/projects/277359774/" target="_blank">visit this project</a>
-                and enter your PIN:</p>
-
-            <p class="pin">{{ pin }}</p>
 
             <a href="/scratch/cancel" class="cancel">Cancel</a>
 
@@ -68,4 +71,10 @@
         {% endif %}
     </div>
 
+{% endblock %}
+
+{% block other %}
+    <div class="bottom-right">
+        <a href="/scratch/docs/">Public API</a>
+    </div>
 {% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Scratch Verify API Docs{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="/css/scratch.css">
+{% endblock %}
+
+{% block content %}
+
+    <div class="box-header">
+        <h4>Scratch Verify API</h4>
+    </div>
+    <div class="box-content" style="text-align: left; font-size: 18px;">
+        <p>Scratch Verify has a public API for usage by Discord bot developers. Using the
+            API, you can query a Discord user ID to check if it's been linked to a Scratch account.</p>
+
+        <hr>
+        <div class="description">
+            <code>GET http://paric.xyz/scratch/api/user/&lt;userID&gt;</code>
+            <p class="description">Checks whether a Discord user is verified through their user ID.</p>
+
+            <h4>Examples</h4>
+            <p>Working example:</p>
+            <pre><code>> GET http://paric.xyz/scratch/api/user/307778901680062468
+
+{
+  "user": {
+    "id": 4155652,
+    "username": "ComicWorldBros"
+  },
+  "verified": true
+}</code></pre>
+            <p>Unverified example:</p>
+            <pre><code>> GET http://paric.xyz/scratch/api/user/451588189015113738
+
+{
+  "verified": false
+}</code></pre>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block other %}
+    <div class="bottom-right">
+        <a href="/scratch/">Back</a>
+    </div>
+{% endblock %}
